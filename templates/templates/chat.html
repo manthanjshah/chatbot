@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #e8f0fe;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .chat-container {
+            max-height: 500px;
+            overflow-y: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .bot-response {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 15px;
+        }
+
+        .message.user {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .message.bot {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .input-group {
+            margin-top: 20px;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h3 class="text-center">Chat with Our Bot</h3>
+                <div class="chat-container">
+                    {% if chat_history %}
+                        {% for chat in chat_history %}
+                            <div class="user-message">
+                                <div class="message user">{{ chat.user_message }}</div>
+                            </div>
+                            <div class="bot-response">
+                                <div class="message bot">{{ chat.bot_response }}</div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="bot-response">
+                            <div class="message bot">Hello! How can I assist you today?</div>
+                        </div>
+                    {% endif %}
+                </div>
+                <form method="POST" action="/chat">
+                    <div class="input-group">
+                        <input type="text" name="message" class="form-control" placeholder="Type your message..." required>
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                </form>
+                <div class="btn-container">
+                    <form action="/delete_chat_history" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete Chat History</button>
+                    </form>
+                    <a href="/" class="btn btn-secondary">Back to Index</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
